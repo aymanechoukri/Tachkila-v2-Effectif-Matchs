@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Atlas FC – Team Lineup Manager est une application web responsive permettant de gérer l'effectif d'une équipe de football, créer une composition en 4-4-2, assigner les joueurs à leurs postes et sauvegarder les données grâce à localStorage. Développée avec HTML, Tailwind CSS et JavaScript.">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Tachkila-Composition-d-quipe</title>
+</head>
+
+<body class="text-white min-h-screen min-w-0 bg-gradient-to-br from-[#020604] via-[#071A10] to-[#064E2B]">
+
+    <header class="xl:col-span-full w-full min-w-0 border-[#6e879a] border-b-2 p-3 sm:p-4 flex justify-between items-center gap-3 sm:gap-4 xl:gap-10">
+        <div class="flex items-center gap-5 max-md:gap-2 rounded-lg ">
+            <img src="/Image/logo.png.png" alt="logo" loading="lazy" class="w-20 max-md:w-15">
+            <div>
+                <h1 class="text-3xl text-md font-bold max-md:text-sm">ATLAS FC</h1>
+                <p class="text-[#6e879a] tracking-[.25em]">Team Lineup Manager</p>
+            </div>
+        </div>
+
+        <nav class="flex items-center">
+            <ul class="flex items-center gap-6">
+                <li class="text-xl font-bold cursor-pointer"><a href="/index.html">Effectif</a></li>
+                <li class="text-xl font-bold cursor-pointer"><a href="./Pages/composition.html">Composition</a></li>
+                <li class="text-xl font-bold cursor-pointer"><a href="/Pages/matchs.html">Matchs</a></li>
+            </ul>
+        </nav>
+
+        <div class="flex gap-5 font-bold justify-center py-4 max-md:hidden">
+            <p class="flex gap-2  max-md:hidden"><span class="px-[12px] bg-[#f3de24] rounded-[50%]"></span>GB</p>
+            <p class="flex gap-2  max-md:hidden"><span class="px-[12px] bg-[#368af8] rounded-[50%]"></span>DEF</p>
+            <p class="flex gap-2  max-md:hidden"><span class="px-[12px] bg-[#079642] rounded-[50%]"></span>MIL</p>
+            <p class="flex gap-2  max-md:hidden"><span class="px-[12px] bg-[#fc333b] rounded-[50%]"></span>AIT</p>
+        </div>
+    </header>
+
+    <!--Ajouter-->
+    <div id="popap" class="fixed inset-0 w-full min-h-screen backdrop-blur-sm grid justify-items-center content-center z-10" hidden>
+        <div class="w-[95%] sm:w-[85%] lg:w-[60%] xl:w-[40%] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-[#020604] via-[#071A10] to-[#064E2B] h-auto rounded-3xl p-4 sm:p-8 xl:p-12 flex flex-col gap-6 animation-scal">
+            <div class="flex justify-between items-center">
+                <h2 class="font-bold text-2xl">Ajouter un joueur</h2>
+                <button class="open-or-popap"><i class="fa-solid fa-xmark px-3 py-2 bg-red-600 hover:scale-105 shadow-lg shadow-red-600 cursor-pointer rounded-full"></i></button>
+            </div>
+
+            <form class="flex flex-col gap-5">
+                <div class="flex-1 flex flex-col gap-5" >
+                    <label for="name" class="font-bold text-2xl">Name Player :</label>
+                    <input id="name" type="text"  name="name" placeholder="EXMPLE ROUNALDO CR7..." class="outline-none border-2 border-slate-400 px-4 font-normal text-xl h-15 rounded-xl focus:shadow-sm shadow-white duration-700" required>
+                    <p class="checked-name text-lg text-red-600 ml-2"></p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-5 justify-items-center ">
+                    <button type="button" data-position="Gardien"   class="bg-slate-950 py-5 shadow-lg font-bold text-lg hover:scale-101 cursor-pointer duration-500 w-[100%] rounded-4xl flex gap-4 pl-5  position"><span class="px-[15px] bg-[#f3de24] rounded-[50%]"></span>Gardien</button>
+                    <button type="button" data-position="Defenseur"   class="bg-slate-950 py-5 shadow-lg font-bold text-lg hover:scale-101 cursor-pointer duration-500 w-[100%] rounded-4xl flex gap-4 pl-5 position"><span class="px-[15px] bg-[#368af8] rounded-[50%]"></span>Defenseur</button>
+                    <button type="button" data-position="Milieu"   class="bg-slate-950 py-5 shadow-lg font-bold text-lg hover:scale-101 cursor-pointer duration-500 w-[100%] rounded-4xl flex gap-4 pl-5  position"><span class="px-[15px] bg-[#079642] rounded-[50%]"></span>Milieu</button>
+                    <button type="button" data-position="Buteur"   class="bg-slate-950 py-5 shadow-lg font-bold text-lg hover:scale-101 cursor-pointer duration-500 w-[100%] rounded-4xl flex gap-4 pl-5 position"><span class="px-[15px] bg-[#fc333b] rounded-[50%]"></span>Buteur</button>
+                </div>
+                <p class="checked-position text-lg text-red-600 ml-2"></p>
+
+                <div class="flex-1 flex flex-col gap-5" >
+                    <label for="number" class="font-bold text-2xl">Number Player :</label>
+                    <input id="number" min="1" type="number" name="name" placeholder="10...." class="outline-none border-2 border-slate-400 px-4 font-normal text-xl h-15 rounded-xl focus:shadow-sm shadow-white duration-700" required>
+                    <p class="checked-number text-lg text-red-600 ml-2"></p>
+                </div>
+
+                <div class="flex gap-5 items-center justify-end">
+                    <button type="button" id="ajouter" type="submit" class="font-bold w-[30%] py-4 text-lg hover:scale-101 active:scale-100 bg-green-700 rounded-4xl cursor-pointer shadow-lg">Ajouter</button>
+                    <button type="button" class="font-bold w-[30%] py-4 text-lg hover:scale-101 active:scale-100 bg-red-600 rounded-4xl cursor-pointer shadow-lg open-or-popap">Annuler</button>
+                </div>
+
+                <p class="text-red-500 text-lg font-bold rounded-lg error"></p>
+            </form>
+        </div>
+    </div>
+
+    <!--Update-->
+    <div id="popap-update" class="fixed inset-0 w-full min-h-screen backdrop-blur-sm grid justify-items-center content-center z-10" hidden>
+       <div class="w-[95%] sm:w-[85%] lg:w-[60%] xl:w-[40%] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-[#020604] via-[#071A10] to-[#064E2B] h-auto rounded-3xl p-4 sm:p-8 xl:p-12 flex flex-col gap-6 animation-scal">
+            <div class="flex justify-between items-center">
+                <h2 class="font-bold text-2xl">Modifier un joueur</h2>
+                <button class="open-or-clos"><i class="fa-solid fa-xmark px-3 py-2 bg-red-600 hover:scale-105 shadow-lg shadow-red-600 cursor-pointer rounded-full"></i></button>
+            </div>
+
+            <form class="flex flex-col gap-5">
+                <div class="flex-1 flex flex-col gap-5" >
+                    <label for="name" class="font-bold text-2xl">Name Player :</label>
+                    <input id="updateName" type="text" name="name" placeholder="EXMPLE ROUNALDO CR7..." class="outline-none border-2 border-slate-400 px-4 font-normal text-xl h-15 rounded-xl focus:shadow-sm shadow-white duration-700" required>
+                    <p class="checked-name text-lg text-red-600 ml-2"></p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-5 justify-items-center ">
+                    <button type="button" data-position="Gardien"   class="bg-slate-950 py-5 shadow-lg font-bold text-lg hover:scale-101 cursor-pointer duration-500 w-[100%] rounded-4xl flex gap-4 pl-5 checked:border-indigo-500 updatePosition "><span class="px-[15px] bg-[#f3de24] rounded-[50%]"></span>Gardien</button>
+                    <button type="button" data-position="Defenseur"   class="bg-slate-950 py-5 shadow-lg font-bold text-lg hover:scale-101 cursor-pointer duration-500 w-[100%] rounded-4xl flex gap-4 pl-5 checked:border-indigo-500 updatePosition"><span class="px-[15px] bg-[#368af8] rounded-[50%]"></span>Defenseur</button>
+                    <button type="button" data-position="Milieu"   class="bg-slate-950 py-5 shadow-lg font-bold text-lg hover:scale-101 cursor-pointer duration-500 w-[100%] rounded-4xl flex gap-4 pl-5 checked:border-indigo-500 updatePosition"><span class="px-[15px] bg-[#079642] rounded-[50%]"></span>Milieu</button>
+                    <button type="button" data-position="Buteur"   class="bg-slate-950 py-5 shadow-lg font-bold text-lg hover:scale-101 cursor-pointer duration-500 w-[100%] rounded-4xl flex gap-4 pl-5 checked:border-indigo-500 updatePosition"><span class="px-[15px] bg-[#fc333b] rounded-[50%]"></span>Buteur</button>
+                </div>
+                <p class="checked-position text-lg text-red-600 ml-2"></p>
+
+                <div class="flex-1 flex flex-col gap-5" >
+                    <label for="number" class="font-bold text-2xl">Number Player :</label>
+                    <input id="updateNumber" min="1" type="number" name="name" placeholder="10...." class="outline-none border-2 border-slate-400 px-4 font-normal text-xl h-15 rounded-xl focus:shadow-sm shadow-white duration-700" required>
+                    <p class="checked-number text-lg text-red-600 ml-2"></p>
+                </div>
+
+                <div class="flex gap-5 items-center justify-end">
+                    <button type="button" id="modifier" type="submit" class="font-bold w-[30%] py-4 text-lg hover:scale-101 active:scale-100 bg-green-700 rounded-4xl cursor-pointer shadow-lg">Modifier</button>
+                    <button type="button" class="font-bold w-[30%] py-4 text-lg hover:scale-101 active:scale-100 bg-red-600 rounded-4xl cursor-pointer shadow-lg open-or-clos">Annuler</button>
+                </div>
+
+                <p class="text-red-500 text-lg font-bold rounded-lg error"></p>
+            </form>
+        </div>
+    </div>
+
+    <main>
+        <section class="flex flex-col gap-5">
+            <div class="flex justify-between items-center p-10">
+                <div class="flex flex-col gap-3">
+                    <h2 class="text-4xl font-semibold">Effectif</h2>
+                    <p class="font-semibold text-green-500">Gerez les joueurs du club Atlas FC.</p>
+                </div>
+
+                <button class="bg-gradient-to-br from-[#020604] via-[#071A10] to-[#064E2B] py-5 rounded-xl font-bold text-xl cursor-pointer hover:bg-green-700 hover:scale-102 duration-200 active:scale-90 open-or-popap px-10">+ Ajouter un joueur</button>
+            </div>
+        </section>
+
+        <section>
+            <article></article>
+            <article></article>
+            <article></article>
+            <article></article>
+        </section>
+    </main>
+</body>
+<script type="module" src="/js/page-effectif.js"></script>
+</html>

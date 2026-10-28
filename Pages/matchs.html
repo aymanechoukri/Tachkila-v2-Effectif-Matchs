@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Atlas FC – Team Lineup Manager est une application web responsive permettant de gérer l'effectif d'une équipe de football, créer une composition en 4-4-2, assigner les joueurs à leurs postes et sauvegarder les données grâce à localStorage. Développée avec HTML, Tailwind CSS et JavaScript.">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Tachkila-Composition-d-quipe</title>
+</head>
+
+<body class="text-white min-h-screen min-w-0 bg-gradient-to-br from-[#020604] via-[#071A10] to-[#064E2B]">
+
+    <header class="xl:col-span-full w-full min-w-0 border-[#6e879a] border-b-2 p-3 sm:p-4 flex justify-between items-center gap-3 sm:gap-4 xl:gap-10">
+        <div class="flex items-center gap-5 max-md:gap-2 rounded-lg ">
+            <img src="/Image/logo.png.png" alt="logo" loading="lazy" class="w-20 max-md:w-15">
+            <div>
+                <h1 class="text-3xl text-md font-bold max-md:text-sm">ATLAS FC</h1>
+                <p class="text-[#6e879a] tracking-[.25em]">Team Lineup Manager</p>
+            </div>
+        </div>
+
+        <nav class="flex items-center">
+            <ul class="flex items-center gap-6">
+                <li class="text-xl font-bold cursor-pointer"><a href="/index.html">Effectif</a></li>
+                <li class="text-xl font-bold cursor-pointer"><a href="/Pages/composition.html">Composition</a></li>
+                <li class="text-xl font-bold cursor-pointer"><a href="./matchs.html">Matchs</a></li>
+            </ul>
+        </nav>
+
+        <div class="flex gap-5 font-bold justify-center py-4 max-md:hidden">
+            <p class="flex gap-2  max-md:hidden"><span class="px-[12px] bg-[#f3de24] rounded-[50%]"></span>GB</p>
+            <p class="flex gap-2  max-md:hidden"><span class="px-[12px] bg-[#368af8] rounded-[50%]"></span>DEF</p>
+            <p class="flex gap-2  max-md:hidden"><span class="px-[12px] bg-[#079642] rounded-[50%]"></span>MIL</p>
+            <p class="flex gap-2  max-md:hidden"><span class="px-[12px] bg-[#fc333b] rounded-[50%]"></span>AIT</p>
+        </div>
+    </header>
+
+    <main>
+
+    </main>
+</body>
+<script type="module" src="script.js"></script>
+</html>
