@@ -1,22 +1,18 @@
-export const joueur = [
-    {
-  id: "1730112000000",  
-  nom: "Karim Belkacem", 
-  numero: 10,          
-  poste: "MIL",          
-  age: 25,        
-  statut: "En forme",    
-  capitaine: true,     
-  position: null        
-}
-];
-
+export const joueur = [];
 
 export const COLOR_MAP = {
     "Buteur" : "border-red-600",
     "Gardien" : "border-orange-500",
     "Milieu" : "border-green-500",
     "Defenseur" : "border-blue-500",
+}
+
+
+export const COLOR_PL = {
+    "Buteur" : "text-red-600",
+    "Gardien" : "text-orange-500",
+    "Milieu" : "text-green-500",
+    "Defenseur" : "text-blue-500",
 }
 
 export const POSITIONS_AUTORISEES = {

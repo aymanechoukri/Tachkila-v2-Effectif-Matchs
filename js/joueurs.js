@@ -1,19 +1,9 @@
-import {joueur} from "./data.js";
-import {COLOR_MAP} from "./data.js";
-import {POSITIONS_AUTORISEES} from "./data.js";
+import {tickts2} from "./page-effectif.js";
+import {COLOR_PL, joueur, COLOR_MAP, POSITIONS_AUTORISEES} from "./data.js";
+import {setStorage, getStorage} from "./stockage.js";
 
-const tickts = document.querySelector("#tickts");
-const name = document.querySelector("#name");
-const positions = document.querySelectorAll(".position");
-const number = document.querySelector("#number");
-const ajouter = document.querySelector("#ajouter");
-const popap = document.getElementById("popap");
-const openOrClosePopap = document.querySelectorAll(".open-or-popap");
-
-
-
-console.log(joueur)
-
+const players = getStorage("players");
+let stockId = null;
 
 
 export function renderPlayers() {
@@ -78,11 +68,13 @@ export function renderPlayers() {
     });
 }
 
-
-export function addPlayer() {
+export function addPlayer(name, positions, number, ajouter, etat, age) {
     let namePlayer = "";
     let numberPlayer = "";
     let positionValue = "";
+    let agePlayer = "";
+    let etatPlayer = "";
+
 
     name.addEventListener("input", (e) => {
     namePlayer = e.target.value;
@@ -106,6 +98,23 @@ export function addPlayer() {
     numberPlayer = e.target.value;
 })
 
+
+    age.addEventListener("input", (e) => {
+        agePlayer = e.target.value;
+    });
+
+    etat.forEach(btn => {
+
+        btn.addEventListener("click", () => {
+            etatPlayer = btn.dataset.etat;
+            etat.forEach(btn => {
+                btn.classList.remove("background-active")
+            })
+
+            btn.classList.add("background-active")
+        })
+    })
+
     ajouter.addEventListener("click", () => {
     
     const player = {
@@ -113,12 +122,17 @@ export function addPlayer() {
         nom: namePlayer,
         poste: positionValue,
         numero: numberPlayer,
+        age: agePlayer,
+        etat: etatPlayer,
         selection: POSITIONS_AUTORISEES[positionValue],
         assignedPosition: ""
     }
     
     
-    joueur.push(player);
+    players.push(player);
+
+    setStorage(players);
+
 
     name.value = "";
     number.value = "";
@@ -128,7 +142,7 @@ export function addPlayer() {
     });
 
 
-    renderPlayers();
+    renderPlayers2(tickts2);
     popap.hidden = true;
     showToast("Joueur ajouté avec succès !");
 })
@@ -136,10 +150,186 @@ export function addPlayer() {
 }
 
 
-export function poppas() {
-    openOrClosePopap.forEach(btn => {
+export function poppas(btns, popap) {
+    btns.forEach(btn => {
     btn.addEventListener("click", () => {
         popap.hidden = !popap.hidden;
     })
 })
+
+}
+
+
+export function renderPlayers2(tickts) {
+    function getColor(player) {
+        return COLOR_MAP[player.poste]    
+    }
+
+    function getTextColor(playe) {
+        return COLOR_PL[playe.poste]
+    }
+    tickts.innerHTML = "";
+
+    players.forEach(player => {
+        const color = getColor(player);
+        const collorText = getTextColor(player);
+
+        const html = `
+            <article  data-id=${player.id} class="backdrop-blur-md bg-black/50 p-5 rounded-lg flex flex-col gap-5  shadow-sm shadow-white/20 border-l-2 ${color}">
+                     <div class="flex items-center gap-6">
+                        <span class="border-1 p-3 rounded-full ${color} ${collorText}">${player.numero}</span>
+                        <div class="flex flex-col gap-1">
+                            <h3 class="text-xl font-extrabold">${player.nom}</h3>
+                            <p class="${collorText} font-extrabold">${player.poste}</p>
+                        </div>
+                     </div>
+
+                     <p class="font-extrabold">Age: ${player.age} ans</p>
+
+                     <div class="flex justify-between items-center">
+                        <p class="bg-green-300 p-3 rounded-xl text-black font-bold shadow-sm shadow-white">${player.etat}</p>
+                         <ul class="flex gap-5">
+                            <li><button class="bg-linear-to-r from-slate-700 to-slate-200 px-4 py-2 rounded-lg cursor-pointer">C</button></li>
+                            <li data-edite=${player.id}  class="bg-linear-to-r from-green-700 to-slate-200 px-4 py-2 rounded-lg open-close"><i class="fa-solid fa-user-pen cursor-pointer"></i></li>
+                            <li data-deleted=${player.id}  class="bg-linear-to-r from-red-700 to-slate-200 px-4 py-2 rounded-lg"><i class="fa-solid fa-trash cursor-pointer"></i></li>
+                         </ul>
+                     </div>
+                </article>
+        `;
+
+        tickts.insertAdjacentHTML("beforeend", html);
+    });
+}
+
+export function deletedPlayer() {
+    function find(id) {
+       const findPlayer = players.find(u => u.id === id);
+
+       players.splice(findPlayer, 1);
+       setStorage(players)
+    }
+
+    tickts2.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-deleted]");
+        if (!btn) return;
+
+        const id = Number(btn.dataset.deleted);
+        find(id);
+        renderPlayers2(tickts2)
+    })
+}
+
+export function updatePlayer(popapUpdate, btns, name, number, positions, age, etat, modifier) {
+    let updateNom = "";
+    let updateNumber = "";
+    let updatePoste = "";
+    let updateAge = "";
+    let updateEtat = "";
+
+     tickts2.addEventListener("click", (e) => {
+        const  btn = e.target.closest(".open-close");
+        const btn2 = e.target.closest("[data-edite]");
+        if(!btn) return;
+        if(!btn2) return;
+
+        popapUpdate.hidden = !popapUpdate.hidden;
+
+        stockId = Number(btn2.dataset.edite);
+        
+        const findPlayer = players.find(u => u.id === stockId);
+
+        console.log(findPlayer);
+
+        name.value = findPlayer.nom;
+        number.value = Number(findPlayer.numero);
+        age.value = findPlayer.age;
+
+        positions.forEach(position => {
+            position.classList.remove("background-active");
+        })
+
+        positions.forEach(position => {
+            if (position.dataset.position === findPlayer.poste) {
+                position.classList.add("background-active");
+            }
+        });
+
+        etat.forEach(eta => {
+            eta.classList.remove("background-active");
+        })
+
+        etat.forEach(eta => {
+            if (eta.dataset.etat === findPlayer.etat) {
+                eta.classList.add("background-active");
+            }
+        })
+
+        name.addEventListener("input", (e) => {
+        updateNom = e.target.value;
+        });
+
+        positions.forEach(position => {
+        position.addEventListener("click", () => {
+        updatePoste = position.dataset.position;
+        positions.forEach(btn => {
+            btn.classList.remove("background-active");
+        });
+        position.classList.add("background-active");
+    })
+    })
+
+    number.addEventListener("input", (e) => {
+    updateNumber = e.target.value;
+    })
+
+    age.addEventListener("input", (e) => {
+        updateAge = e.target.value;
+    });
+
+
+    etat.forEach(btn => {
+
+        btn.addEventListener("click", () => {
+            updateEtat = btn.dataset.etat;
+            etat.forEach(btn => {
+                btn.classList.remove("background-active")
+            })
+
+            btn.classList.add("background-active")
+        })
+    });
+
+
+    modifier.addEventListener("click", () => {
+
+        findPlayer.nom = updateNom.trim();
+        findPlayer.numero = Number(updateNumber);
+        findPlayer.poste = updatePoste;
+        findPlayer.etat = updateEtat;
+        findPlayer.age = Number(updateAge);
+    
+
+        setStorage(players);
+
+
+    name.value = "";
+    number.value = "";
+
+    positions.forEach(position => {
+        position.classList.remove("background-active");
+    });
+
+
+    renderPlayers2(tickts2);
+    popapUpdate.hidden = true;
+    showToast("Joueur ajouté avec succès !");
+})
+
+})
+
+    btns.forEach(btn => {
+        btn.addEventListener("click", () => {
+        popapUpdate.hidden = true;
+    })
+    });
 }
