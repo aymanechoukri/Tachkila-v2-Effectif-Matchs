@@ -1,5 +1,5 @@
-.pop {
-    animation: pop 0.8s ease infinite;
+.ping {
+    animation: ping 0.8s ease infinite;
 }
 
 .animation-scal {
@@ -18,15 +18,15 @@
     }
 }
 
-@keyframes pop {
+@keyframes ping {
     0% {
-        transform: translateY(0);
+        opacity: 1;
     }
     50% {
-        transform: translateY(5px);
+        opacity: 0.5;
     }
     100% {
-        transform: translateY(0);
+        opacity: 1;
     }
 }
 

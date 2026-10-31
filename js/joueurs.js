@@ -150,7 +150,6 @@ export function addPlayer(name, positions, number, ajouter, etat, age) {
     
 }
 
-
 export function poppas(btns, popap) {
     btns.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -160,8 +159,7 @@ export function poppas(btns, popap) {
 
 }
 
-
-export function renderPlayers2(tickts) {
+export function renderPlayers2(tickts, playerShow = players) {
     function getColor(player) {
         return COLOR_MAP[player.poste]    
     }
@@ -169,9 +167,12 @@ export function renderPlayers2(tickts) {
     function getTextColor(playe) {
         return COLOR_PL[playe.poste]
     }
+    if (playerShow.length == 0) {
+        tickts.innerHTML = ` <p class="text-xl font-extrabold bg-linear-to-r from-red-500 to-white bg-clip-text text-transparent ping">Players Not Found...</p>`;
+        return;
+    }
     tickts.innerHTML = "";
-
-    players.forEach(player => {
+    playerShow.forEach(player => {
         const color = getColor(player);
         const collorText = getTextColor(player);
 
@@ -204,7 +205,7 @@ export function renderPlayers2(tickts) {
 
 export function deletedPlayer() {
     function find(id) {
-       const findPlayer = players.find(u => u.id === id);
+       const findPlayer = players.findIndex(u => u.id === id);
 
        players.splice(findPlayer, 1);
        setStorage(players)
@@ -360,5 +361,21 @@ export function captan() {
 
         setStorage(players)
         console.log(findPlayer);
+    })
+}
+
+export function sercherPlayer(search) {
+
+    let serchValue = "";
+    search.addEventListener("input", (e) => {
+        serchValue = e.target.value;
+        
+        const filterPlayer = players.filter(player => player.nom.toLowerCase().includes(serchValue.toLocaleLowerCase()));
+
+        if (!filterPlayer) {
+            
+        }
+
+        renderPlayers2(tickts2, filterPlayer)
     })
 }
