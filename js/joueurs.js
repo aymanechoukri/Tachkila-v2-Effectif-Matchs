@@ -5,6 +5,10 @@ import {setStorage, getStorage} from "./stockage.js";
 const players = getStorage("players");
 let stockId = null;
 
+let currentPage = 1;
+const maxPage = 4;
+let playersToShow   = null;
+
 
 export function renderPlayers() {
     function getColor(player) {
@@ -171,8 +175,9 @@ export function renderPlayers2(tickts, playerShow = players) {
         tickts.innerHTML = ` <p class="text-xl font-extrabold bg-linear-to-r from-red-500 to-white bg-clip-text text-transparent ping">Players Not Found...</p>`;
         return;
     }
+    playersToShow = playerShow.slice(0, 4)
     tickts.innerHTML = "";
-    playerShow.forEach(player => {
+    playersToShow.forEach(player => {
         const color = getColor(player);
         const collorText = getTextColor(player);
 
@@ -393,4 +398,34 @@ export function filterPositionPlayer(poste) {
             renderPlayers2(tickts2, filterPost);
         })
     })
+}
+
+export function nextPage(left, right, page) {
+    let totalPlayer = Math.ceil(players.length / maxPage);
+    right.addEventListener("click", () => {
+         if (currentPage >= totalPlayer) {
+            return;
+        }
+        currentPage += 1;
+        let start = (currentPage - 1) * maxPage;
+        let end = start + maxPage;
+        playersToShow = players.slice(start, end)
+        page.textContent = `${currentPage}/${totalPlayer}`
+        renderPlayers2(tickts2, playersToShow)
+    });
+
+    left.addEventListener("click", () => {
+        if (currentPage <= 1) {
+            return;
+        }
+        currentPage -= 1;
+        let start = (currentPage - 1) * maxPage;
+        let end = start + maxPage;
+        playersToShow = players.slice(start, end)
+        page.textContent = `${currentPage}/${totalPlayer}`
+        renderPlayers2(tickts2, playersToShow);
+    })
+
+        page.textContent = `${currentPage}/${totalPlayer}`
+    
 }
