@@ -125,7 +125,8 @@ export function addPlayer(name, positions, number, ajouter, etat, age) {
         age: agePlayer,
         etat: etatPlayer,
         selection: POSITIONS_AUTORISEES[positionValue],
-        assignedPosition: ""
+        assignedPosition: "",
+        capitan: false
     }
     
     
@@ -175,7 +176,7 @@ export function renderPlayers2(tickts) {
         const collorText = getTextColor(player);
 
         const html = `
-            <article  data-id=${player.id} class="backdrop-blur-md bg-black/50 p-5 rounded-lg flex flex-col gap-5  shadow-sm shadow-white/20 border-l-2 ${color}">
+            <article data-id=${player.id} class="backdrop-blur-md bg-black/50 p-5 rounded-lg flex flex-col gap-5 shadow-sm ${player.capitan ? "shadow-purple-700" : "shadow-white/20"} border-l-2 ${color}">
                      <div class="flex items-center gap-6">
                         <span class="border-1 p-3 rounded-full ${color} ${collorText}">${player.numero}</span>
                         <div class="flex flex-col gap-1">
@@ -189,7 +190,7 @@ export function renderPlayers2(tickts) {
                      <div class="flex justify-between items-center">
                         <p class="bg-green-300 p-3 rounded-xl text-black font-bold shadow-sm shadow-white">${player.etat}</p>
                          <ul class="flex gap-5">
-                            <li><button class="bg-linear-to-r from-slate-700 to-slate-200 px-4 py-2 rounded-lg cursor-pointer">C</button></li>
+                            <li><button data-capitan=${player.id} class="bg-linear-to-r from-slate-700 to-slate-200 px-4 py-2 rounded-lg cursor-pointer">C</button></li>
                             <li data-edite=${player.id}  class="bg-linear-to-r from-green-700 to-slate-200 px-4 py-2 rounded-lg open-close"><i class="fa-solid fa-user-pen cursor-pointer"></i></li>
                             <li data-deleted=${player.id}  class="bg-linear-to-r from-red-700 to-slate-200 px-4 py-2 rounded-lg"><i class="fa-solid fa-trash cursor-pointer"></i></li>
                          </ul>
@@ -325,11 +326,39 @@ export function updatePlayer(popapUpdate, btns, name, number, positions, age, et
     showToast("Joueur ajouté avec succès !");
 })
 
-})
+
+    });
 
     btns.forEach(btn => {
         btn.addEventListener("click", () => {
-        popapUpdate.hidden = true;
-    })
+            popapUpdate.hidden = true;
+        });
     });
+
+}
+
+export function captan() {
+    tickts2.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-capitan]");
+        const btn2 = e.target.closest("[data-id]");
+
+        if(!btn) return;
+
+        stockId = Number(btn.dataset.capitan);
+        
+        const findPlayer = players.find(u => u.id === stockId);
+
+        findPlayer.capitan = !findPlayer.capitan;
+
+        if (findPlayer.capitan) {
+            btn2.classList.add("shadow-purple-700");
+            btn2.classList.remove("shadow-white/20");
+        } else {
+            btn2.classList.remove("shadow-purple-700");
+            btn2.classList.add("shadow-white/20");
+        }
+
+        setStorage(players)
+        console.log(findPlayer);
+    })
 }

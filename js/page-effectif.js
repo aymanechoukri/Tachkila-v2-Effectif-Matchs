@@ -1,4 +1,4 @@
-import {poppas, addPlayer, renderPlayers2, deletedPlayer, updatePlayer} from "./joueurs.js";
+import {poppas, addPlayer, renderPlayers2, deletedPlayer, updatePlayer, captan} from "./joueurs.js";
 
 export const tickts2 = document.querySelector("#tickts2");
 const popap = document.getElementById("popap");
@@ -25,3 +25,4 @@ addPlayer(name, positions, number, ajouter, etat, age);
 renderPlayers2(tickts2);
 deletedPlayer();
 updatePlayer(updatePopop, openClose, updateName, updateNumber, updatePosition, updateAge, updateEtat, modifier);
+captan();
