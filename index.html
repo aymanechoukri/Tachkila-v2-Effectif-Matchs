@@ -175,11 +175,12 @@
                     <input class="w-full border-1 border-green-300 px-5 rounded-lg h-12 focus:shadow-sm focus:shadow-green-700 outline-none text-xl text-gray-400" type="search" name="" id="search" placeholder="Rechercher un joueur par nom...">
                 </div>
 
-                <ul class="flex gap-10 w-[15%]">
-                    <li class="text-xl font-bold hover:text-green-300 cursor-pointer">GB</li>
-                    <li class="text-xl font-bold hover:text-green-300 cursor-pointer">DEF</li>
-                    <li class="text-xl font-bold hover:text-green-300 cursor-pointer">MIL</li>
-                    <li class="text-xl font-bold hover:text-green-300 cursor-pointer">AIT</li>
+                <ul class="flex gap-10 ">
+                    <li data-post="All" class="text-xl font-bold hover:text-green-300 cursor-pointer filter-poste">All</li>
+                    <li data-post="Gardien" class="text-xl font-bold hover:text-green-300 cursor-pointer filter-poste">GB</li>
+                    <li data-post="Defenseur" class="text-xl font-bold hover:text-green-300 cursor-pointer filter-poste">DEF</li>
+                    <li data-post="Milieu" class="text-xl font-bold hover:text-green-300 cursor-pointer filter-poste">MIL</li>
+                    <li data-post="Buteur" class="text-xl font-bold hover:text-green-300 cursor-pointer filter-poste">AIT</li>
                 </ul>
             </form>
 

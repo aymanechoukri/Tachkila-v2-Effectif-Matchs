@@ -379,3 +379,18 @@ export function sercherPlayer(search) {
         renderPlayers2(tickts2, filterPlayer)
     })
 }
+
+export function filterPositionPlayer(poste) {
+    let postValue = "";
+
+    poste.forEach(post => {
+        post.addEventListener("click", (e) => {
+            postValue = e.target.dataset.post;
+
+            const filterPost = players.filter(post => postValue == "All" ? post.poste : post.poste == postValue);
+
+            
+            renderPlayers2(tickts2, filterPost);
+        })
+    })
+}

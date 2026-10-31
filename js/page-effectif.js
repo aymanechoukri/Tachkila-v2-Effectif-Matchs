@@ -1,4 +1,4 @@
-import {poppas, addPlayer, renderPlayers2, deletedPlayer, updatePlayer, captan, sercherPlayer} from "./joueurs.js";
+import {poppas, addPlayer, renderPlayers2, deletedPlayer, updatePlayer, captan, sercherPlayer, filterPositionPlayer} from "./joueurs.js";
 
 export const tickts2 = document.querySelector("#tickts2");
 const popap = document.getElementById("popap");
@@ -20,6 +20,7 @@ const updatePosition = document.querySelectorAll(".updatePosition");
 const updateEtat = document.querySelectorAll(".updateEtat");
 const updateNumber = document.getElementById("updateNumber")
 const modifier = document.getElementById("modifier");
+const filterPoste = document.querySelectorAll(".filter-poste");
 
 poppas(openOrClosePopap, popap);
 addPlayer(name, positions, number, ajouter, etat, age);
@@ -28,3 +29,4 @@ deletedPlayer();
 updatePlayer(updatePopop, openClose, updateName, updateNumber, updatePosition, updateAge, updateEtat, modifier);
 captan();
 sercherPlayer(serch);
+filterPositionPlayer(filterPoste);
