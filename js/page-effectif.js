@@ -32,8 +32,6 @@ const errorEtat = document.querySelectorAll(".checked-etat")
 const errorRepNumber = document.querySelectorAll(".error");
 
 
-
-
 poppas(openOrClosePopap, popap);
 addPlayer(name, positions, number, ajouter, etat, age, errorName, errorAge, errorPoste, errorNumber, errorEtat, errorRepNumber);
 renderPlayers2(tickts2);

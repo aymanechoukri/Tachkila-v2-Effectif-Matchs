@@ -4,6 +4,7 @@ import {setStorage, getStorage} from "./stockage.js";
 import { validationAjouter } from "./validation.js";
 import { showToast } from "./interface.js";
 
+
 const players = getStorage("players");
 export let stockId = null;
 
@@ -12,67 +13,6 @@ const maxPage = 4;
 let playersToShow   = null;
 
 
-export function renderPlayers() {
-    function getColor(player) {
-        return COLOR_MAP[player.position]    
-    }
-    tickts.innerHTML = "";
-
-    joueur.forEach(player => {
-        const color = getColor(player);
-
-        const html = `
-            <article value=${player.id} class="flex flex-col gap-6 p-2 border-l-5 rounded-xl ${color} article">
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center gap-3">
-                        <p class="border-1 ${color} px-4 py-2 rounded-full">
-                            ${player.numero}
-                        </p>
-
-                        <div>
-                            <h3 class="text-2xl font-bold">
-                                ${player.nom}
-                            </h3>
-
-                            <p class="${color} font-bold">
-                                ${player.poste}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="flex gap-4">
-                        <i
-                            data-edit="${player.id}"
-                            class="btn-edit fa-solid fa-pen-to-square text-slate-400 text-2xl cursor-pointer hover:text-slate-500"
-                        ></i>
-
-                        <i
-                            data-delete="${player.id}"
-                            class="fa-solid fa-trash text-red-400 text-2xl cursor-pointer hover:text-red-500"
-                        ></i>
-                    </div>
-                </div>
-
-                <select  data-player=${player.id} name="position"  class="w-full h-[6vh] border border-slate-700 outline-none text-lg text-gray-300 bg-slate-800 font-bold px-4 rounded-lg cursor-pointer transition-all duration-300 focus:${color} hover:${color}" >
-                    <option value="" disabled ${player.assignedPosition ? "" : "selected"}>
-                        Choisir un poste
-                    </option>
-                    ${(POSITIONS_AUTORISEES[player.position] || []).map(u => `
-                    <option
-                            value="${u.value}"
-                            ${player.assignedPosition === u.value ? "selected" : ""}
-                        >
-                            ${u.label}
-                        </option>
-                        `).join("")}
-                </select>
-                    <button data-toch=${player.id} class="cursor-pointer touch bg-red-300 rounded-md py-2 font-bold hover:scale-102 duration-100" type="button">Bon toch</button>
-            </article>
-        `;
-
-        tickts.insertAdjacentHTML("beforeend", html);
-    });
-}
 
 export function addPlayer(name, positions, number, ajouter, etat, age, errorName, errorAge, errorPost, errorNumber, errorEtat, errorRepNumber, ) {
     let namePlayer = "";
