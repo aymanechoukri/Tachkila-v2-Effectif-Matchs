@@ -1,6 +1,7 @@
 import {tickts2} from "./page-effectif.js";
 import {COLOR_PL, joueur, COLOR_MAP, POSITIONS_AUTORISEES} from "./data.js";
 import {setStorage, getStorage} from "./stockage.js";
+import { validationAjouter } from "./validation.js";
 
 const players = getStorage("players");
 let stockId = null;
@@ -72,7 +73,7 @@ export function renderPlayers() {
     });
 }
 
-export function addPlayer(name, positions, number, ajouter, etat, age) {
+export function addPlayer(name, positions, number, ajouter, etat, age, errorName, errorAge, errorPost, errorNumber, errorEtat, errorRepNumber) {
     let namePlayer = "";
     let numberPlayer = "";
     let positionValue = "";
@@ -82,14 +83,14 @@ export function addPlayer(name, positions, number, ajouter, etat, age) {
 
     name.addEventListener("input", (e) => {
     namePlayer = e.target.value;
+    errorName.textContent = ""
 
-    console.log(namePlayer)
 });
 
     positions.forEach(position => {
     position.addEventListener("click", () => {
         positionValue = position.dataset.position;
-        console.log(positionValue)
+        errorPost.textContent = "";
         positions.forEach(btn => {
             btn.classList.remove("background-active");
         });
@@ -105,6 +106,7 @@ export function addPlayer(name, positions, number, ajouter, etat, age) {
 
     age.addEventListener("input", (e) => {
         agePlayer = e.target.value;
+        errorAge.textContent = "";
     });
 
     etat.forEach(btn => {
@@ -119,7 +121,13 @@ export function addPlayer(name, positions, number, ajouter, etat, age) {
         })
     })
 
-    ajouter.addEventListener("click", () => {
+    ajouter.addEventListener("click", (e) => {
+
+        e.preventDefault()
+
+      const isValid = validationAjouter(namePlayer, positionValue, numberPlayer, etatPlayer, agePlayer, errorName, errorAge, errorPost, errorNumber, errorEtat, errorRepNumber)
+
+      if (!isValid) return;
     
     const player = {
         id: Date.now(),
@@ -141,13 +149,17 @@ export function addPlayer(name, positions, number, ajouter, etat, age) {
 
     name.value = "";
     number.value = "";
+    age.value = "";
 
     positions.forEach(position => {
         position.classList.remove("background-active");
     });
 
+    etat.forEach(eta => {
+        eta.classList.remove("background-active");
+    });
 
-    renderPlayers2(tickts2);
+    displayCurrentPage();
     popap.hidden = true;
     showToast("Joueur ajouté avec succès !");
 })
@@ -222,7 +234,7 @@ export function deletedPlayer() {
 
         const id = Number(btn.dataset.deleted);
         find(id);
-        renderPlayers2(tickts2)
+        displayCurrentPage()
     })
 }
 
@@ -245,7 +257,6 @@ export function updatePlayer(popapUpdate, btns, name, number, positions, age, et
         
         const findPlayer = players.find(u => u.id === stockId);
 
-        console.log(findPlayer);
 
         name.value = findPlayer.nom;
         number.value = Number(findPlayer.numero);
@@ -321,13 +332,18 @@ export function updatePlayer(popapUpdate, btns, name, number, positions, age, et
 
     name.value = "";
     number.value = "";
+    age.value = "";
 
     positions.forEach(position => {
         position.classList.remove("background-active");
     });
 
+    etat.forEach(eta => {
+        eta.classList.remove("background-active");
+    });
 
-    renderPlayers2(tickts2);
+
+    displayCurrentPage();
     popapUpdate.hidden = true;
     showToast("Joueur ajouté avec succès !");
 })
@@ -365,7 +381,6 @@ export function captan() {
         }
 
         setStorage(players)
-        console.log(findPlayer);
     })
 }
 
@@ -427,5 +442,20 @@ export function nextPage(left, right, page) {
     })
 
         page.textContent = `${currentPage}/${totalPlayer}`
-    
+}
+
+function displayCurrentPage() {
+    const totalPages = Math.ceil(players.length / maxPage);
+
+    if (currentPage > totalPages) {
+        currentPage = Math.max(1, totalPages);
+    }
+
+    const start = (currentPage - 1) * maxPage;
+    const end = start + maxPage;
+
+    playersToShow = players.slice(start, end);
+
+    renderPlayers2(tickts2, playersToShow);
+    page.textContent = `${currentPage}/${Math.ceil(players.length / maxPage)}`;
 }
