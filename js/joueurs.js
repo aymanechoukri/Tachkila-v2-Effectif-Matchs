@@ -2,9 +2,10 @@ import {tickts2} from "./page-effectif.js";
 import {COLOR_PL, joueur, COLOR_MAP, POSITIONS_AUTORISEES} from "./data.js";
 import {setStorage, getStorage} from "./stockage.js";
 import { validationAjouter } from "./validation.js";
+import { showToast } from "./interface.js";
 
 const players = getStorage("players");
-let stockId = null;
+export let stockId = null;
 
 let currentPage = 1;
 const maxPage = 4;
@@ -73,7 +74,7 @@ export function renderPlayers() {
     });
 }
 
-export function addPlayer(name, positions, number, ajouter, etat, age, errorName, errorAge, errorPost, errorNumber, errorEtat, errorRepNumber) {
+export function addPlayer(name, positions, number, ajouter, etat, age, errorName, errorAge, errorPost, errorNumber, errorEtat, errorRepNumber, ) {
     let namePlayer = "";
     let numberPlayer = "";
     let positionValue = "";
@@ -83,14 +84,18 @@ export function addPlayer(name, positions, number, ajouter, etat, age, errorName
 
     name.addEventListener("input", (e) => {
     namePlayer = e.target.value;
-    errorName.textContent = ""
+    errorName.forEach(error => {
+            error.textContent = "";
+        });
 
 });
 
     positions.forEach(position => {
     position.addEventListener("click", () => {
         positionValue = position.dataset.position;
-        errorPost.textContent = "";
+        errorPost.forEach(error => {
+            error.textContent = "";
+        });
         positions.forEach(btn => {
             btn.classList.remove("background-active");
         });
@@ -101,18 +106,26 @@ export function addPlayer(name, positions, number, ajouter, etat, age, errorName
 
     number.addEventListener("input", (e) => {
     numberPlayer = e.target.value;
+     errorNumber.forEach(error => {
+            error.textContent = ""
+        });
 })
 
 
     age.addEventListener("input", (e) => {
         agePlayer = e.target.value;
-        errorAge.textContent = "";
+        errorAge.forEach(error => {
+            error.textContent = "";
+        });
     });
 
     etat.forEach(btn => {
 
         btn.addEventListener("click", () => {
             etatPlayer = btn.dataset.etat;
+             errorEtat.forEach(error => {
+            error.textContent = ""
+        });
             etat.forEach(btn => {
                 btn.classList.remove("background-active")
             })
@@ -235,10 +248,11 @@ export function deletedPlayer() {
         const id = Number(btn.dataset.deleted);
         find(id);
         displayCurrentPage()
+        showToast("Joueur supprimé avec succès !");
     })
 }
 
-export function updatePlayer(popapUpdate, btns, name, number, positions, age, etat, modifier) {
+export function updatePlayer(popapUpdate, btns, name, number, positions, age, etat, modifier, errorName, errorAge, errorPoste, errorNumber, errorEtat, errorRepNumber) {
     let updateNom = "";
     let updateNumber = "";
     let updatePoste = "";
@@ -258,9 +272,15 @@ export function updatePlayer(popapUpdate, btns, name, number, positions, age, et
         const findPlayer = players.find(u => u.id === stockId);
 
 
-        name.value = findPlayer.nom;
-        number.value = Number(findPlayer.numero);
-        age.value = findPlayer.age;
+        updateNom = findPlayer.nom;
+        updateNumber = findPlayer.numero;
+        updatePoste = findPlayer.poste;
+        updateAge = findPlayer.age;
+        updateEtat = findPlayer.etat;
+
+        name.value = updateNom;
+        number.value = updateNumber;
+        age.value = updateAge;
 
         positions.forEach(position => {
             position.classList.remove("background-active");
@@ -284,11 +304,17 @@ export function updatePlayer(popapUpdate, btns, name, number, positions, age, et
 
         name.addEventListener("input", (e) => {
         updateNom = e.target.value;
+        errorName.forEach(error => {
+            error.textContent = "";
+        });
         });
 
         positions.forEach(position => {
         position.addEventListener("click", () => {
         updatePoste = position.dataset.position;
+        errorPoste.forEach(error => {
+            error.textContent = "";
+        });
         positions.forEach(btn => {
             btn.classList.remove("background-active");
         });
@@ -298,10 +324,16 @@ export function updatePlayer(popapUpdate, btns, name, number, positions, age, et
 
     number.addEventListener("input", (e) => {
     updateNumber = e.target.value;
+    errorNumber.forEach(error => {
+            error.textContent = ""
+        });
     })
 
     age.addEventListener("input", (e) => {
         updateAge = e.target.value;
+        errorAge.forEach(error => {
+            error.textContent = "";
+        });
     });
 
 
@@ -309,6 +341,9 @@ export function updatePlayer(popapUpdate, btns, name, number, positions, age, et
 
         btn.addEventListener("click", () => {
             updateEtat = btn.dataset.etat;
+            errorEtat.forEach(error => {
+            error.textContent = ""
+        });
             etat.forEach(btn => {
                 btn.classList.remove("background-active")
             })
@@ -319,6 +354,10 @@ export function updatePlayer(popapUpdate, btns, name, number, positions, age, et
 
 
     modifier.addEventListener("click", () => {
+
+      const isValid = validationAjouter(updateNom, updatePoste, updateNumber, updateEtat, updateAge, errorName, errorAge, errorPoste, errorNumber, errorEtat, errorRepNumber)
+
+      if (!isValid) return;
 
         findPlayer.nom = updateNom.trim();
         findPlayer.numero = Number(updateNumber);
@@ -344,8 +383,9 @@ export function updatePlayer(popapUpdate, btns, name, number, positions, age, et
 
 
     displayCurrentPage();
+    
     popapUpdate.hidden = true;
-    showToast("Joueur ajouté avec succès !");
+    showToast("Modification enregistrée.", "success")
 })
 
 

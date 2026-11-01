@@ -24,12 +24,13 @@ const filterPoste = document.querySelectorAll(".filter-poste");
 const left = document.getElementById("left");
 const right = document.getElementById("right");
 const page = document.getElementById("page");
-const errorName = document.querySelector(".checked-name");
-const errorAge = document.querySelector(".checked-age");
-const errorPoste = document.querySelector(".checked-position");
-const errorNumber = document.querySelector(".checked-number")
-const errorEtat = document.querySelector(".checked-etat")
-const errorRepNumber = document.querySelector(".error");
+const errorName = document.querySelectorAll(".checked-name");
+const errorAge = document.querySelectorAll(".checked-age");
+const errorPoste = document.querySelectorAll(".checked-position");
+const errorNumber = document.querySelectorAll(".checked-number")
+const errorEtat = document.querySelectorAll(".checked-etat")
+const errorRepNumber = document.querySelectorAll(".error");
+
 
 
 
@@ -37,7 +38,7 @@ poppas(openOrClosePopap, popap);
 addPlayer(name, positions, number, ajouter, etat, age, errorName, errorAge, errorPoste, errorNumber, errorEtat, errorRepNumber);
 renderPlayers2(tickts2);
 deletedPlayer();
-updatePlayer(updatePopop, openClose, updateName, updateNumber, updatePosition, updateAge, updateEtat, modifier);
+updatePlayer(updatePopop, openClose, updateName, updateNumber, updatePosition, updateAge, updateEtat, modifier, errorName, errorAge, errorPoste, errorNumber, errorEtat, errorRepNumber);
 captan();
 sercherPlayer(serch);
 filterPositionPlayer(filterPoste);
