@@ -88,6 +88,11 @@ export function addPlayerInTiran(tickts) {
             return;
         }
 
+        if (player.etat !== "forme") {
+            showToast("Ce joueur En Blessé!");
+            return;
+        }
+
         const namePl = document.querySelector(
             `.name-pl[value="${valueSelect}"]`
         );
