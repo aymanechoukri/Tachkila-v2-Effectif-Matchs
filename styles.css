@@ -3,7 +3,7 @@
 }
 
 .animation-scal {
-    animation: scale 0.5s forwards linear;
+    animation: scale 0.4s forwards linear;
 }
 
 @keyframes scale {

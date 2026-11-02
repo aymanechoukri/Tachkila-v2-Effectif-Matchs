@@ -20,7 +20,7 @@ export function renderPlayers(tickts) {
         const colorText = getColorText(player)
 
         const html = `
-            <article value=${player.id} class="flex flex-col gap-6 p-2 border-l-5 rounded-xl ${color} article">
+            <article value=${player.id} class="flex flex-col shadow-md gap-6 p-2 border-l-5 rounded-xl ${player.capitan ? "shadow-purple-700" : "shadow-white/20"} ${color} article">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center gap-3">
                         <p class="border-1 ${color} px-4 py-2 ${colorText} rounded-full">

@@ -12,3 +12,9 @@ export function getStorage(key) {
 
     return JSON.parse(data);
 }
+
+
+export function setStorageMatch(arr) {
+    localStorage.setItem("matchs", JSON.stringify(arr));
+}
+
