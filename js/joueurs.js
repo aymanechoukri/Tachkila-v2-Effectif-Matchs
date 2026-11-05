@@ -373,7 +373,7 @@ export function sercherPlayer(search) {
         const filterPlayer = players.filter(player => player.nom.toLowerCase().includes(serchValue.toLocaleLowerCase()));
 
         if (!filterPlayer) {
-            
+            return;
         }
 
         renderPlayers2(tickts2, filterPlayer)

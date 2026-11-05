@@ -73,22 +73,23 @@ export function renderMatch(tickts) {
     tickts.innerHTML = "";
 
     matchs.forEach(match => {
-        const [annee, mois, jour] = match.date.split("-");
+        const date = new Date(match.date + "T12:00:00");
 
-        const dateObject = new Date(match.date);
-
-        const dayName = dateObject.toLocaleDateString("en-US", {
+        const dayName = date.toLocaleDateString("en-US", {
             weekday: "long"
         });
-        const anneName = dateObject.toLocaleDateString("en-US", {
+        const anneName = date.toLocaleDateString("en-US", {
             month: "long"
         })
+
+        const days = date.getDay();
+
         const html = `
         <article class="flex justify-between backdrop-blur-lg bg-black/50 p-5 rounded-xl items-center">
                     <div class="flex items-center gap-7">
                         <div class="flex flex-col items-center bg-green-900/30 py-2 rounded-lg px-4">
                             <h3 class="font-bold">${dayName}</h3>
-                            <p class="font-bold text-3xl">${jour}</p>
+                            <p class="font-bold text-3xl">${days}</p>
                             <p class="font-bold">${anneName}</p>
                             <p class="font-bold">${match.heure}</p>
                         </div>
@@ -101,8 +102,9 @@ export function renderMatch(tickts) {
                     </div>
                     
                     <div>
+                        <div data-result=${match.id}></div>
                         <ul class="flex items-center gap-5">
-                            <li><button type="button" class="bg-blue-500 p-2 rounded-lg font-bold cursor-pointer active:bg-blue-300">Siasir le score</button></li>
+                            <li><button type="button" class=" ${date <= new Date() ? "bg-blue-500 p-2 rounded-lg font-bold cursor-pointer active:bg-blue-300" : "hidden"}">Siasir le score</button></li>
                             <li data-edite=${match.id}  class="bg-linear-to-r from-green-700 to-slate-200 px-4 py-2 rounded-lg open-close"><i class="fa-solid fa-pen-to-square"></i></li>
                             <li data-deleted=${match.id}  class="bg-linear-to-r from-red-700 to-slate-200 px-4 py-2 rounded-lg"><i class="fa-solid fa-trash cursor-pointer"></i></li>
                         </ul>
@@ -113,4 +115,112 @@ export function renderMatch(tickts) {
     tickts.insertAdjacentHTML("beforeend", html);
     })
 
+}
+
+export function deletedMatch() {
+    function findMatch(id) {
+        const findMatch = matchs.findIndex(match => match.id === id);
+        matchs.splice(findMatch, 1)
+        setStorageMatch(matchs);
+    }
+
+
+    tickts.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-deleted]");
+
+        if (!btn) return;
+
+        const id = Number(btn.dataset.deleted);
+        
+        findMatch(id);
+        renderMatch(tickts);
+    })
+
+}
+
+export function updateMatch(updatePopaap, opneClose, updateAdversaire, updateDate, updateHeure, updateLieu, updateTypeMatch, modifia) {
+    let valueAdversaire = "";
+    let valueDate = "";
+    let valueHeure = "";
+    let valueLieu = "";
+    let valueTypeMatch = "";
+
+    updateAdversaire.addEventListener("input", (e) => {
+        valueAdversaire = e.target.value;
+    });
+
+    updateDate.addEventListener("input", (e) => {
+        valueDate = e.target.value;
+    })
+
+    updateHeure.addEventListener("input", (e) => {
+        valueHeure = e.target.value;
+    });
+
+    updateLieu.addEventListener("input", (e) => {
+        valueLieu = e.target.value;
+    });
+
+    updateTypeMatch.forEach(type => {
+        type.addEventListener("input", (e) => {
+            valueTypeMatch = e.target.value;
+        })
+    })
+
+    opneClose.forEach(btn => {
+        btn.addEventListener("click", () => {
+        updatePopaap.hidden = true;
+    })
+    })
+
+    tickts.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-edite]");
+        if (!btn) return;
+        updatePopaap.hidden = false;
+
+        const id = Number(btn.dataset.edite);
+
+        const findMatch = matchs.find(u => u.id === id);
+        console.log(findMatch);
+
+        valueAdversaire = findMatch.adversaire;
+        valueDate = findMatch.date;
+        valueHeure = findMatch.heure;
+        valueLieu = findMatch.lieu;
+        valueTypeMatch = findMatch.type;
+
+        updateAdversaire.value = valueAdversaire;
+        updateDate.value = valueDate;
+        updateHeure.value = valueHeure;
+        updateLieu.value = valueLieu;
+        
+        updateTypeMatch.forEach(type => {
+            type.checked = (type.value === findMatch.type);
+        });
+
+
+        modifia.addEventListener("click", () => {
+
+            findMatch.adversaire = valueAdversaire;
+            findMatch.date = valueDate;
+            findMatch.heure = valueHeure;
+            findMatch.lieu = valueLieu;
+            findMatch.type = valueTypeMatch;
+
+            setStorageMatch(matchs);
+            renderMatch(tickts);
+            updatePopaap.hidden = true;
+
+            updateAdversaire.value = "";
+            updateDate.value = "";
+            updateHeure.value = "";
+            updateLieu.value = "";
+            updateTypeMatch.value = "";
+        })
+ 
+    })
+}
+
+export function resultMatch() {
+    
 }
