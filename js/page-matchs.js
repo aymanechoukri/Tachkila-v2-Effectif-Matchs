@@ -1,4 +1,4 @@
-import { addMatch, deletedMatch, poppas, renderMatch, resultMatch, updateMatch, updateScore } from "./matchs.js";
+import { addMatch, deletedMatch, filterMatchS, poppas, renderMatch, resultMatch, updateMatch, updateScore } from "./matchs.js";
 
 const popap = document.getElementById("popap");
 const openOrClosePopap = document.querySelectorAll(".open-or-popap");
@@ -31,6 +31,9 @@ const scoreAtlasUpdate = document.querySelector("#score-atlas-update");
 const scoreVsUpdate = document.querySelector("#score-vs-update");
 const modifiaScore = document.querySelector("#modifia-score");
 
+const serch = document.querySelector("#search");
+const filterMatch = document.querySelectorAll(".filter-match");
+
 
 poppas(openOrClosePopap, popap);
 addMatch(adversaire, dateMatch, heureMatch, lieuMatch, typeMatch, ajouterMAtch);
@@ -39,3 +42,4 @@ deletedMatch();
 updateMatch(updatePopaap, opneClose, updateAdversaire, updateDateMatch, updateHeureMatch, updateLieu, updateTypeMatch, modifia);
 resultMatch(scoreAtlas, scoreVs, scorePopap, closeOpne, ajouterScore);
 updateScore(scorePopapUpdate, closeOpneUpdate, scoreAtlasUpdate, scoreVsUpdate, modifiaScore)
+filterMatchS(serch, filterMatch)

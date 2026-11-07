@@ -17,8 +17,3 @@ export function getStorage(key) {
 export function setStorageMatch(arr) {
     localStorage.setItem("matchs", JSON.stringify(arr));
 }
-
-
-export function setScoreMatch(ob) {
-    localStorage.setItem("score", JSON.stringify(ob));
-}
