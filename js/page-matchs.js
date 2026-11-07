@@ -1,4 +1,4 @@
-import { addMatch, deletedMatch, poppas, renderMatch, updateMatch } from "./matchs.js";
+import { addMatch, deletedMatch, poppas, renderMatch, resultMatch, updateMatch, updateScore } from "./matchs.js";
 
 const popap = document.getElementById("popap");
 const openOrClosePopap = document.querySelectorAll(".open-or-popap");
@@ -19,10 +19,23 @@ const updateLieu = document.getElementById("update-lieu");
 const updateTypeMatch = document.querySelectorAll(".update-type-match");
 const modifia = document.getElementById("modifia");
 
+const scorePopap = document.querySelector("#popap-score");
+const closeOpne = document.querySelectorAll(".open-close-score");
+const scoreAtlas = document.querySelector("#score-atlas");
+const scoreVs = document.querySelector("#score-vs");
+const ajouterScore = document.querySelector("#ajouter-score");
+
+const scorePopapUpdate = document.querySelector("#popap-score-update");
+const closeOpneUpdate = document.querySelectorAll(".open-close-score-update");
+const scoreAtlasUpdate = document.querySelector("#score-atlas-update");
+const scoreVsUpdate = document.querySelector("#score-vs-update");
+const modifiaScore = document.querySelector("#modifia-score");
+
 
 poppas(openOrClosePopap, popap);
 addMatch(adversaire, dateMatch, heureMatch, lieuMatch, typeMatch, ajouterMAtch);
 renderMatch(tickts)
 deletedMatch();
-updateMatch(updatePopaap, opneClose, updateAdversaire, updateDateMatch, updateHeureMatch, updateLieu, updateTypeMatch, modifia)
-
+updateMatch(updatePopaap, opneClose, updateAdversaire, updateDateMatch, updateHeureMatch, updateLieu, updateTypeMatch, modifia);
+resultMatch(scoreAtlas, scoreVs, scorePopap, closeOpne, ajouterScore);
+updateScore(scorePopapUpdate, closeOpneUpdate, scoreAtlasUpdate, scoreVsUpdate, modifiaScore)

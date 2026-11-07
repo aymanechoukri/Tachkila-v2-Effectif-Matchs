@@ -7,4 +7,4 @@ renderPlayers(tickts);
 countPlayer(countJoueur);
 addPlayerInTiran(tickts);
 renderPitch();
-removePlayerFromPitch(tickts)
+removePlayerFromPitch(tickts);
