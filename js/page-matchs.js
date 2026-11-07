@@ -35,8 +35,15 @@ const serch = document.querySelector("#search");
 const filterMatch = document.querySelectorAll(".filter-match");
 
 
+const error1 = document.querySelector(".checked-adversaire");
+const error2 = document.querySelector(".checked-date");
+const error3 = document.querySelector(".checked-heure");
+const error4 = document.querySelector(".checked-lieu");
+const error5 = document.querySelector(".checked-type");
+const error6 = document.querySelector(".checked-adversaire");
+
 poppas(openOrClosePopap, popap);
-addMatch(adversaire, dateMatch, heureMatch, lieuMatch, typeMatch, ajouterMAtch);
+addMatch(adversaire, dateMatch, heureMatch, lieuMatch, typeMatch, ajouterMAtch, error1, error2, error3, error4, error5);
 renderMatch(tickts)
 deletedMatch();
 updateMatch(updatePopaap, opneClose, updateAdversaire, updateDateMatch, updateHeureMatch, updateLieu, updateTypeMatch, modifia);

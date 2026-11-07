@@ -36,15 +36,34 @@
       </div>
 
       <nav class="flex items-center">
-        <ul class="flex items-center gap-6">
-          <li class="text-xl font-bold cursor-pointer">
-            <a href="/index.html">Effectif</a>
+        <ul
+          class="flex items-center gap-1 bg-slate-900/70 border border-slate-700/50 p-1.5 rounded-xl w-fit overflow-x-auto max-w-full"
+        >
+          <li class="shrink-0">
+            <a
+              href="/index.html"
+              class="nav-link block select-none px-5 py-2 rounded-lg text-slate-400 text-sm font-bold uppercase tracking-wide hover:text-green-400 hover:bg-slate-800 cursor-pointer transition-all duration-300 active:scale-95"
+            >
+              Effectif
+            </a>
           </li>
-          <li class="text-xl font-bold cursor-pointer">
-            <a href="/Pages/composition.html">Composition</a>
+
+          <li class="shrink-0">
+            <a
+              href="/Pages/composition.html"
+              class="nav-link block select-none px-5 py-2 rounded-lg text-slate-400 text-sm font-bold uppercase tracking-wide hover:text-green-400 hover:bg-slate-800 cursor-pointer transition-all duration-300 active:scale-95"
+            >
+              Composition
+            </a>
           </li>
-          <li class="text-xl font-bold cursor-pointer">
-            <a href="./matchs.html">Matchs</a>
+
+          <li class="shrink-0">
+            <a
+              href="./matchs.html"
+              class="nav-link block select-none px-5 py-2 rounded-lg bg-green-600 text-white text-sm font-bold uppercase tracking-wide cursor-pointer transition-all duration-300 active:scale-95"
+            >
+              Matchs
+            </a>
           </li>
         </ul>
       </nav>
@@ -95,6 +114,7 @@
               class="outline-none border-2 border-slate-400 px-4 font-normal text-xl h-15 rounded-xl focus:shadow-sm shadow-white duration-700"
               required
             />
+            <p class="checked-adversaire text-md text-red-600 ml-2"></p>
           </div>
 
           <div class="grid grid-cols-2 gap-5">
@@ -107,6 +127,7 @@
                 class="outline-none border-2 border-slate-400 px-4 font-normal text-xl h-15 rounded-xl focus:shadow-sm shadow-white duration-700"
                 required
               />
+               <p class="checked-date text-md text-red-600 ml-2"></p>
             </div>
 
             <div class="flex-1 flex flex-col gap-5">
@@ -121,6 +142,7 @@
                 class="outline-none border-2 border-slate-400 px-4 font-normal text-xl h-15 rounded-xl focus:shadow-sm shadow-white duration-700"
                 required
               />
+               <p class="checked-heure text-md text-red-600 ml-2"></p>
             </div>
           </div>
 
@@ -134,6 +156,7 @@
               class="outline-none border-2 border-slate-400 px-4 font-normal text-xl h-15 rounded-xl focus:shadow-sm shadow-white duration-700"
               required
             />
+            <p class="checked-lieu text-md text-red-600 ml-2"></p>
           </div>
 
           <div class="flex flex-col gap-5">
@@ -164,6 +187,7 @@
                 />
                 Extérieur
               </label>
+              <p class="checked-type text-md text-red-600 ml-2"></p>
             </div>
           </div>
 
@@ -534,25 +558,25 @@
           </div>
 
           <ul
-            class="flex items-center gap-1 bg-slate-900/70 border border-slate-700/50 p-1.5 rounded-xl w-fit"
+            class="flex items-center gap-1 bg-slate-900/70 border border-slate-700/50 p-1.5 rounded-xl w-fit overflow-x-auto max-w-full"
           >
             <li
               data-post="All"
-              class="filter-match px-5 py-2 rounded-lg bg-green-600 text-white font-bold cursor-pointer transition-all duration-300"
+              class="filter-match shrink-0 select-none px-5 py-2 rounded-lg bg-green-600 text-white text-sm font-bold uppercase tracking-wide cursor-pointer transition-all duration-300 active:scale-95"
             >
               All
             </li>
 
             <li
               data-post="Venir"
-              class="filter-match px-5 py-2 rounded-lg text-slate-400 font-semibold hover:text-green-400 hover:bg-slate-800 cursor-pointer transition-all duration-300"
+              class="filter-match shrink-0 select-none px-5 py-2 rounded-lg text-slate-400 text-sm font-bold uppercase tracking-wide hover:text-green-400 hover:bg-slate-800 cursor-pointer transition-all duration-300 active:scale-95"
             >
               À venir
             </li>
 
             <li
               data-post="Joues"
-              class="filter-match px-5 py-2 rounded-lg text-slate-400 font-semibold hover:text-green-400 hover:bg-slate-800 cursor-pointer transition-all duration-300"
+              class="filter-match shrink-0 select-none px-5 py-2 rounded-lg text-slate-400 text-sm font-bold uppercase tracking-wide hover:text-green-400 hover:bg-slate-800 cursor-pointer transition-all duration-300 active:scale-95"
             >
               Joués
             </li>

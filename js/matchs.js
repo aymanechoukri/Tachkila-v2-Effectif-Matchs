@@ -1,5 +1,6 @@
 import { tickts } from "./page-matchs.js";
 import { getStorage, setStorageMatch } from "./stockage.js";
+import { validationMatchs } from "./validationMatch.js";
 
 const matchs = getStorage("matchs");
 
@@ -11,7 +12,7 @@ export function poppas(btns, popap) {
   });
 }
 
-export function addMatch(adversaire, date, heure, lieu, typeMatch, ajouter) {
+export function addMatch(adversaire, date, heure, lieu, typeMatch, ajouter, error1, error2, error3, error4, error5) {
   let adversaireValue = "";
   let dateValue = "";
   let heureVAlue = "";
@@ -20,28 +21,36 @@ export function addMatch(adversaire, date, heure, lieu, typeMatch, ajouter) {
 
   adversaire.addEventListener("input", (e) => {
     adversaireValue = e.target.value;
+    error1.textContent = "";
   });
 
   date.addEventListener("input", (e) => {
     dateValue = e.target.value;
+    error2.textContent = "";
   });
 
   heure.addEventListener("input", (e) => {
     heureVAlue = e.target.value;
+    error3.textContent = "";
   });
 
   lieu.addEventListener("input", (e) => {
     lieuValue = e.target.value;
+    error4.textContent = "";
   });
 
   typeMatch.forEach((type) => {
     type.addEventListener("input", (e) => {
       typeValue = e.target.value;
-      console.log(typeValue);
+      error5.textContent = "";
     });
   });
 
   ajouter.addEventListener("click", () => {
+
+   const isValid = validationMatchs(adversaire, date, heure, lieu, typeMatch, error1, error2, error3, error4, error5);
+
+   if (!isValid) return;
     const match = {
       id: Date.now(),
       adversaire: adversaireValue,

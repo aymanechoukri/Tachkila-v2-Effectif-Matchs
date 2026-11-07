@@ -155,9 +155,8 @@ export function renderPlayers2(tickts, playerShow = players) {
     tickts.innerHTML = ` <p class="text-xl font-extrabold bg-linear-to-r from-red-500 to-white bg-clip-text text-transparent ping">Players Not Found...</p>`;
     return;
   }
-  playersToShow = playerShow.slice(0, 4);
   tickts.innerHTML = "";
-  playersToShow.forEach((player) => {
+  playerShow.forEach((player) => {
     const color = getColor(player);
     const collorText = getTextColor(player);
 
