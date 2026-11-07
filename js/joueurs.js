@@ -1,152 +1,167 @@
-import {tickts2} from "./page-effectif.js";
-import {COLOR_PL, joueur, COLOR_MAP, POSITIONS_AUTORISEES} from "./data.js";
-import {setStorage, getStorage} from "./stockage.js";
+import { tickts2 } from "./page-effectif.js";
+import { COLOR_PL, joueur, COLOR_MAP, POSITIONS_AUTORISEES } from "./data.js";
+import { setStorage, getStorage } from "./stockage.js";
 import { validationAjouter } from "./validation.js";
 import { showToast } from "./interface.js";
-
 
 const players = getStorage("players");
 export let stockId = null;
 
 let currentPage = 1;
 const maxPage = 4;
-let playersToShow   = null;
+let playersToShow = null;
 
+let currentPlayers = players;
+let pageElement = null;
 
+export function addPlayer(
+  name,
+  positions,
+  number,
+  ajouter,
+  etat,
+  age,
+  errorName,
+  errorAge,
+  errorPost,
+  errorNumber,
+  errorEtat,
+  errorRepNumber,
+) {
+  let namePlayer = "";
+  let numberPlayer = "";
+  let positionValue = "";
+  let agePlayer = "";
+  let etatPlayer = "";
 
-export function addPlayer(name, positions, number, ajouter, etat, age, errorName, errorAge, errorPost, errorNumber, errorEtat, errorRepNumber, ) {
-    let namePlayer = "";
-    let numberPlayer = "";
-    let positionValue = "";
-    let agePlayer = "";
-    let etatPlayer = "";
-
-
-    name.addEventListener("input", (e) => {
+  name.addEventListener("input", (e) => {
     namePlayer = e.target.value;
-    errorName.forEach(error => {
-            error.textContent = "";
-        });
-
-});
-
-    positions.forEach(position => {
-    position.addEventListener("click", () => {
-        positionValue = position.dataset.position;
-        errorPost.forEach(error => {
-            error.textContent = "";
-        });
-        positions.forEach(btn => {
-            btn.classList.remove("background-active");
-        });
-        position.classList.add("background-active");
-    })
-    
-})
-
-    number.addEventListener("input", (e) => {
-    numberPlayer = e.target.value;
-     errorNumber.forEach(error => {
-            error.textContent = ""
-        });
-})
-
-
-    age.addEventListener("input", (e) => {
-        agePlayer = e.target.value;
-        errorAge.forEach(error => {
-            error.textContent = "";
-        });
+    errorName.forEach((error) => {
+      error.textContent = "";
     });
+  });
 
-    etat.forEach(btn => {
+  positions.forEach((position) => {
+    position.addEventListener("click", () => {
+      positionValue = position.dataset.position;
+      errorPost.forEach((error) => {
+        error.textContent = "";
+      });
+      positions.forEach((btn) => {
+        btn.classList.remove("background-active");
+      });
+      position.classList.add("background-active");
+    });
+  });
 
-        btn.addEventListener("click", () => {
-            etatPlayer = btn.dataset.etat;
-             errorEtat.forEach(error => {
-            error.textContent = ""
-        });
-            etat.forEach(btn => {
-                btn.classList.remove("background-active")
-            })
+  number.addEventListener("input", (e) => {
+    numberPlayer = e.target.value;
+    errorNumber.forEach((error) => {
+      error.textContent = "";
+    });
+  });
 
-            btn.classList.add("background-active")
-        })
-    })
+  age.addEventListener("input", (e) => {
+    agePlayer = e.target.value;
+    errorAge.forEach((error) => {
+      error.textContent = "";
+    });
+  });
 
-    ajouter.addEventListener("click", (e) => {
+  etat.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      etatPlayer = btn.dataset.etat;
+      errorEtat.forEach((error) => {
+        error.textContent = "";
+      });
+      etat.forEach((btn) => {
+        btn.classList.remove("background-active");
+      });
 
-        e.preventDefault()
+      btn.classList.add("background-active");
+    });
+  });
 
-      const isValid = validationAjouter(namePlayer, positionValue, numberPlayer, etatPlayer, agePlayer, errorName, errorAge, errorPost, errorNumber, errorEtat, errorRepNumber)
+  ajouter.addEventListener("click", (e) => {
+    e.preventDefault();
 
-      if (!isValid) return;
-    
+    const isValid = validationAjouter(
+      namePlayer,
+      positionValue,
+      numberPlayer,
+      etatPlayer,
+      agePlayer,
+      errorName,
+      errorAge,
+      errorPost,
+      errorNumber,
+      errorEtat,
+      errorRepNumber,
+    );
+
+    if (!isValid) return;
+
     const player = {
-        id: Date.now(),
-        nom: namePlayer,
-        poste: positionValue,
-        numero: numberPlayer,
-        age: agePlayer,
-        etat: etatPlayer,
-        selection: POSITIONS_AUTORISEES[positionValue],
-        assignedPosition: "",
-        capitan: false
-    }
-    
-    
+      id: Date.now(),
+      nom: namePlayer,
+      poste: positionValue,
+      numero: numberPlayer,
+      age: agePlayer,
+      etat: etatPlayer,
+      selection: POSITIONS_AUTORISEES[positionValue],
+      assignedPosition: "",
+      capitan: false,
+    };
+
     players.push(player);
 
     setStorage(players);
-
 
     name.value = "";
     number.value = "";
     age.value = "";
 
-    positions.forEach(position => {
-        position.classList.remove("background-active");
+    positions.forEach((position) => {
+      position.classList.remove("background-active");
     });
 
-    etat.forEach(eta => {
-        eta.classList.remove("background-active");
+    etat.forEach((eta) => {
+      eta.classList.remove("background-active");
     });
 
     displayCurrentPage();
     popap.hidden = true;
     showToast("Joueur ajouté avec succès !");
-})
-    
+  });
 }
 
 export function poppas(btns, popap) {
-    btns.forEach(btn => {
+  btns.forEach((btn) => {
     btn.addEventListener("click", () => {
-        popap.hidden = !popap.hidden;
-    })
-})
-
+      popap.hidden = !popap.hidden;
+    });
+  });
 }
 
 export function renderPlayers2(tickts, playerShow = players) {
-    function getColor(player) {
-        return COLOR_MAP[player.poste]    
-    }
+  function getColor(player) {
+    return COLOR_MAP[player.poste];
+  }
 
-    function getTextColor(playe) {
-        return COLOR_PL[playe.poste]
-    }
-    if (playerShow.length == 0) {
-        tickts.innerHTML = ` <p class="text-xl font-extrabold bg-linear-to-r from-red-500 to-white bg-clip-text text-transparent ping">Players Not Found...</p>`;
-        return;
-    }
-    playersToShow = playerShow.slice(0, 4)
-    tickts.innerHTML = "";
-    playersToShow.forEach(player => {
-        const color = getColor(player);
-        const collorText = getTextColor(player);
+  function getTextColor(playe) {
+    return COLOR_PL[playe.poste];
+  }
+  if (playerShow.length == 0) {
+    tickts.innerHTML = ` <p class="text-xl font-extrabold bg-linear-to-r from-red-500 to-white bg-clip-text text-transparent ping">Players Not Found...</p>`;
+    return;
+  }
+  playersToShow = playerShow.slice(0, 4);
+  tickts.innerHTML = "";
+  playersToShow.forEach((player) => {
+    const color = getColor(player);
+    const collorText = getTextColor(player);
 
-        const html = `
+    const html = `
             <article data-id=${player.id} class="backdrop-blur-md bg-black/50 p-5 rounded-lg flex flex-col gap-5 shadow-sm ${player.capitan ? "shadow-purple-700" : "shadow-white/20"} border-l-2 ${color}">
                      <div class="flex items-center gap-6">
                         <span class="border-1 p-3 rounded-full ${color} ${collorText}">${player.numero}</span>
@@ -169,273 +184,283 @@ export function renderPlayers2(tickts, playerShow = players) {
                 </article>
         `;
 
-        tickts.insertAdjacentHTML("beforeend", html);
-    });
+    tickts.insertAdjacentHTML("beforeend", html);
+  });
 }
 
 export function deletedPlayer() {
-    function find(id) {
-       const findPlayer = players.findIndex(u => u.id === id);
+  function find(id) {
+    const findPlayer = players.findIndex((u) => u.id === id);
 
-       players.splice(findPlayer, 1);
-       setStorage(players)
-    }
+    players.splice(findPlayer, 1);
+    setStorage(players);
+  }
 
-    tickts2.addEventListener("click", (e) => {
-        const btn = e.target.closest("[data-deleted]");
-        if (!btn) return;
+  tickts2.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-deleted]");
+    if (!btn) return;
 
-        const id = Number(btn.dataset.deleted);
-        find(id);
-        displayCurrentPage()
-        showToast("Joueur supprimé avec succès !");
-    })
+    const id = Number(btn.dataset.deleted);
+    find(id);
+    displayCurrentPage();
+    showToast("Joueur supprimé avec succès !");
+  });
 }
 
-export function updatePlayer(popapUpdate, btns, name, number, positions, age, etat, modifier, errorName, errorAge, errorPoste, errorNumber, errorEtat, errorRepNumber) {
-    let updateNom = "";
-    let updateNumber = "";
-    let updatePoste = "";
-    let updateAge = "";
-    let updateEtat = "";
+export function updatePlayer(
+  popapUpdate,
+  btns,
+  name,
+  number,
+  positions,
+  age,
+  etat,
+  modifier,
+  errorName,
+  errorAge,
+  errorPoste,
+  errorNumber,
+  errorEtat,
+  errorRepNumber,
+) {
+  let updateNom = "";
+  let updateNumber = "";
+  let updatePoste = "";
+  let updateAge = "";
+  let updateEtat = "";
 
-     tickts2.addEventListener("click", (e) => {
-        const  btn = e.target.closest(".open-close");
-        const btn2 = e.target.closest("[data-edite]");
-        if(!btn) return;
-        if(!btn2) return;
+  tickts2.addEventListener("click", (e) => {
+    const btn = e.target.closest(".open-close");
+    const btn2 = e.target.closest("[data-edite]");
+    if (!btn) return;
+    if (!btn2) return;
 
-        popapUpdate.hidden = !popapUpdate.hidden;
+    popapUpdate.hidden = !popapUpdate.hidden;
 
-        stockId = Number(btn2.dataset.edite);
-        
-        const findPlayer = players.find(u => u.id === stockId);
+    stockId = Number(btn2.dataset.edite);
 
+    const findPlayer = players.find((u) => u.id === stockId);
 
-        updateNom = findPlayer.nom;
-        updateNumber = findPlayer.numero;
-        updatePoste = findPlayer.poste;
-        updateAge = findPlayer.age;
-        updateEtat = findPlayer.etat;
+    updateNom = findPlayer.nom;
+    updateNumber = findPlayer.numero;
+    updatePoste = findPlayer.poste;
+    updateAge = findPlayer.age;
+    updateEtat = findPlayer.etat;
 
-        name.value = updateNom;
-        number.value = updateNumber;
-        age.value = updateAge;
+    name.value = updateNom;
+    number.value = updateNumber;
+    age.value = updateAge;
 
-        positions.forEach(position => {
-            position.classList.remove("background-active");
-        })
+    positions.forEach((position) => {
+      position.classList.remove("background-active");
+    });
 
-        positions.forEach(position => {
-            if (position.dataset.position === findPlayer.poste) {
-                position.classList.add("background-active");
-            }
-        });
+    positions.forEach((position) => {
+      if (position.dataset.position === findPlayer.poste) {
+        position.classList.add("background-active");
+      }
+    });
 
-        etat.forEach(eta => {
-            eta.classList.remove("background-active");
-        })
+    etat.forEach((eta) => {
+      eta.classList.remove("background-active");
+    });
 
-        etat.forEach(eta => {
-            if (eta.dataset.etat === findPlayer.etat) {
-                eta.classList.add("background-active");
-            }
-        })
+    etat.forEach((eta) => {
+      if (eta.dataset.etat === findPlayer.etat) {
+        eta.classList.add("background-active");
+      }
+    });
 
-        name.addEventListener("input", (e) => {
-        updateNom = e.target.value;
-        errorName.forEach(error => {
-            error.textContent = "";
-        });
-        });
+    name.addEventListener("input", (e) => {
+      updateNom = e.target.value;
+      errorName.forEach((error) => {
+        error.textContent = "";
+      });
+    });
 
-        positions.forEach(position => {
-        position.addEventListener("click", () => {
+    positions.forEach((position) => {
+      position.addEventListener("click", () => {
         updatePoste = position.dataset.position;
-        errorPoste.forEach(error => {
-            error.textContent = "";
+        errorPoste.forEach((error) => {
+          error.textContent = "";
         });
-        positions.forEach(btn => {
-            btn.classList.remove("background-active");
+        positions.forEach((btn) => {
+          btn.classList.remove("background-active");
         });
         position.classList.add("background-active");
-    })
-    })
+      });
+    });
 
     number.addEventListener("input", (e) => {
-    updateNumber = e.target.value;
-    errorNumber.forEach(error => {
-            error.textContent = ""
-        });
-    })
+      updateNumber = e.target.value;
+      errorNumber.forEach((error) => {
+        error.textContent = "";
+      });
+    });
 
     age.addEventListener("input", (e) => {
-        updateAge = e.target.value;
-        errorAge.forEach(error => {
-            error.textContent = "";
-        });
+      updateAge = e.target.value;
+      errorAge.forEach((error) => {
+        error.textContent = "";
+      });
     });
 
-
-    etat.forEach(btn => {
-
-        btn.addEventListener("click", () => {
-            updateEtat = btn.dataset.etat;
-            errorEtat.forEach(error => {
-            error.textContent = ""
+    etat.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        updateEtat = btn.dataset.etat;
+        errorEtat.forEach((error) => {
+          error.textContent = "";
         });
-            etat.forEach(btn => {
-                btn.classList.remove("background-active")
-            })
+        etat.forEach((btn) => {
+          btn.classList.remove("background-active");
+        });
 
-            btn.classList.add("background-active")
-        })
+        btn.classList.add("background-active");
+      });
     });
-
 
     modifier.addEventListener("click", () => {
-
-      const isValid = validationAjouter(updateNom, updatePoste, updateNumber, updateEtat, updateAge, errorName, errorAge, errorPoste, errorNumber, errorEtat, errorRepNumber)
+      const isValid = validationAjouter(
+        updateNom,
+        updatePoste,
+        updateNumber,
+        updateEtat,
+        updateAge,
+        errorName,
+        errorAge,
+        errorPoste,
+        errorNumber,
+        errorEtat,
+        errorRepNumber,
+      );
 
       if (!isValid) return;
 
-        findPlayer.nom = updateNom.trim();
-        findPlayer.numero = Number(updateNumber);
-        findPlayer.poste = updatePoste;
-        findPlayer.etat = updateEtat;
-        findPlayer.age = Number(updateAge);
-    
+      findPlayer.nom = updateNom.trim();
+      findPlayer.numero = Number(updateNumber);
+      findPlayer.poste = updatePoste;
+      findPlayer.etat = updateEtat;
+      findPlayer.age = Number(updateAge);
 
-        setStorage(players);
+      setStorage(players);
 
+      name.value = "";
+      number.value = "";
+      age.value = "";
 
-    name.value = "";
-    number.value = "";
-    age.value = "";
-
-    positions.forEach(position => {
+      positions.forEach((position) => {
         position.classList.remove("background-active");
-    });
+      });
 
-    etat.forEach(eta => {
+      etat.forEach((eta) => {
         eta.classList.remove("background-active");
+      });
+
+      displayCurrentPage();
+
+      popapUpdate.hidden = true;
+      showToast("Modification enregistrée.", "success");
     });
+  });
 
-
-    displayCurrentPage();
-    
-    popapUpdate.hidden = true;
-    showToast("Modification enregistrée.", "success")
-})
-
-
+  btns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      popapUpdate.hidden = true;
     });
-
-    btns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            popapUpdate.hidden = true;
-        });
-    });
-
+  });
 }
 
 export function captan() {
-    tickts2.addEventListener("click", (e) => {
-        const btn = e.target.closest("[data-capitan]");
-        const btn2 = e.target.closest("[data-id]");
+  tickts2.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-capitan]");
+    const btn2 = e.target.closest("[data-id]");
 
-        if(!btn) return;
+    if (!btn) return;
 
-        stockId = Number(btn.dataset.capitan);
-        
-        const findPlayer = players.find(u => u.id === stockId);
+    stockId = Number(btn.dataset.capitan);
 
-        findPlayer.capitan = !findPlayer.capitan;
+    const findPlayer = players.find((u) => u.id === stockId);
 
-        if (findPlayer.capitan) {
-            btn2.classList.add("shadow-purple-700");
-            btn2.classList.remove("shadow-white/20");
-        } else {
-            btn2.classList.remove("shadow-purple-700");
-            btn2.classList.add("shadow-white/20");
-        }
+    findPlayer.capitan = !findPlayer.capitan;
 
-        setStorage(players)
-    })
+    if (findPlayer.capitan) {
+      btn2.classList.add("shadow-purple-700");
+      btn2.classList.remove("shadow-white/20");
+    } else {
+      btn2.classList.remove("shadow-purple-700");
+      btn2.classList.add("shadow-white/20");
+    }
+
+    setStorage(players);
+  });
 }
 
-export function sercherPlayer(search) {
+export function filterPlayers(serch, filterPost) {
+  let valueSerch = "";
+  let valueFilter = "All";
 
-    let serchValue = "";
-    search.addEventListener("input", (e) => {
-        serchValue = e.target.value;
-        
-        const filterPlayer = players.filter(player => player.nom.toLowerCase().includes(serchValue.toLocaleLowerCase()));
+  function applyFiletr() {
+    const filter = players.filter((player) => {
+      const resutltSerch = player.nom
+        .toLowerCase()
+        .includes(valueSerch.toLowerCase());
+      const resultFilter =
+        valueFilter === "All" ? player.poste : player.poste === valueFilter;
 
-        if (!filterPlayer) {
-            return;
-        }
+      return resultFilter && resutltSerch;
+    });
 
-        renderPlayers2(tickts2, filterPlayer)
-    })
-}
+    currentPlayers = filter;
+    currentPage = 1;
+    displayCurrentPage();
+  }
 
-export function filterPositionPlayer(poste) {
-    let postValue = "";
+  serch.addEventListener("input", (e) => {
+    valueSerch = e.target.value;
+    applyFiletr();
+  });
 
-    poste.forEach(post => {
-        post.addEventListener("click", (e) => {
-            postValue = e.target.dataset.post;
-
-            const filterPost = players.filter(post => postValue == "All" ? post.poste : post.poste == postValue);
-
-            
-            renderPlayers2(tickts2, filterPost);
-        })
-    })
+  filterPost.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      valueFilter = e.target.dataset.post;
+      applyFiletr();
+    });
+  });
 }
 
 export function nextPage(left, right, page) {
-    let totalPlayer = Math.ceil(players.length / maxPage);
-    right.addEventListener("click", () => {
-         if (currentPage >= totalPlayer) {
-            return;
-        }
-        currentPage += 1;
-        let start = (currentPage - 1) * maxPage;
-        let end = start + maxPage;
-        playersToShow = players.slice(start, end)
-        page.textContent = `${currentPage}/${totalPlayer}`
-        renderPlayers2(tickts2, playersToShow)
-    });
+  let totalPlayer = Math.ceil(players.length / maxPage);
+  pageElement = page;
+  right.addEventListener("click", () => {
+    if (currentPage >= totalPlayer) {
+      return;
+    }
+    currentPage += 1;
+    displayCurrentPage();
+  });
 
-    left.addEventListener("click", () => {
-        if (currentPage <= 1) {
-            return;
-        }
-        currentPage -= 1;
-        let start = (currentPage - 1) * maxPage;
-        let end = start + maxPage;
-        playersToShow = players.slice(start, end)
-        page.textContent = `${currentPage}/${totalPlayer}`
-        renderPlayers2(tickts2, playersToShow);
-    })
-
-        page.textContent = `${currentPage}/${totalPlayer}`
+  left.addEventListener("click", () => {
+    if (currentPage <= 1) {
+      return;
+    }
+    currentPage -= 1;
+    displayCurrentPage();
+  });
+  displayCurrentPage();
 }
 
 function displayCurrentPage() {
-    const totalPages = Math.ceil(players.length / maxPage);
+  const totalPages = Math.ceil(currentPlayers.length / maxPage);
 
-    if (currentPage > totalPages) {
-        currentPage = Math.max(1, totalPages);
-    }
+  if (currentPage > totalPages) {
+    currentPage = Math.max(1, totalPages);
+  }
 
-    const start = (currentPage - 1) * maxPage;
-    const end = start + maxPage;
+  const start = (currentPage - 1) * maxPage;
+  const end = start + maxPage;
 
-    playersToShow = players.slice(start, end);
+  playersToShow = currentPlayers.slice(start, end);
 
-    renderPlayers2(tickts2, playersToShow);
-    page.textContent = `${currentPage}/${Math.ceil(players.length / maxPage)}`;
+  renderPlayers2(tickts2, playersToShow);
+  pageElement.textContent = `${currentPage}/${Math.ceil(currentPlayers.length / maxPage)}`;
 }

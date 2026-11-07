@@ -51,7 +51,7 @@ export function addMatch(adversaire, date, heure, lieu, typeMatch, ajouter) {
       type: typeValue,
       scorA: "",
       scorV: "",
-      time: ""
+      time: "",
     };
 
     matchs.push(match);
@@ -84,7 +84,7 @@ export function renderMatch(tickts, showMatchs = matchs) {
     if (date <= new Date()) {
       match.time = "Joues";
     } else {
-      match.time = "Venir"
+      match.time = "Venir";
     }
 
     const html = `
@@ -94,8 +94,28 @@ export function renderMatch(tickts, showMatchs = matchs) {
                             <h3 class="font-bold">${dayName}</h3>
                             <p class="font-bold text-3xl">${days}</p>
                             <p class="font-bold">${anneName}</p>
-                            <p class="font-bold">${ma
-                              ? "text-green-400" : match.scorA < match.scorV ? "text-red-400" : "text-slate-300"} text-2xl font-black bg-green-800/60 px-4 py-2 rounded-lg min-w-14 text-center shadow-inner">
+                            <p class="font-bold">${match.heure}</p>
+                        </div>
+
+                        <div class="flex flex-col gap-3">
+                            <p class="bg-green-600/50 p-1 rounded-lg text-center w-20 font-semibold">${match.type}</p>
+                            <h3 class="text-xl font-bold">Atlas FC vs ${match.adversaire}</h3>
+                            <p class="font-bold text-green-400 flex items-center gap-2"><i class="fa-solid fa-location-dot"></i>${match.lieu}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4 items-center">
+                        <div class="flex items-center justify-center gap-4 ${!match.scorA && match.scorA !== 0 ? "hidden" : ""} bg-green-900/80 border border-slate-700 rounded-xl px-5 py-3 shadow-lg">
+
+                                <p class="${match.scorA > match.scorV ? "text-green-400" : match.scorA < match.scorV ? "text-red-400" : "text-slate-300"} text-2xl font-black bg-green-800/60 px-4 py-2 rounded-lg min-w-14 text-center shadow-inner">
+                                  ${match.scorA}
+                                </p>
+
+                                <span class="text-xs font-black text-slate-400 tracking-[0.3em] uppercase">
+                                  VS
+                                </span>
+
+                                <p class="${match.scorA > match.scorV ? "text-green-400" : match.scorA < match.scorV ? "text-red-400" : "text-slate-300"} text-2xl font-black bg-green-800/60 px-4 py-2 rounded-lg min-w-14 text-center shadow-inner">
                                   ${match.scorV}
                                 </p>
 
@@ -126,7 +146,7 @@ export function renderMatch(tickts, showMatchs = matchs) {
                                     Modifier score
                                   </button>
                             </li>
-                            <li class=${match.scorA ? "hidden" : ""}><button data-score=${match.id} type="button" class=" ${date <= new Date() ? "bg-blue-500 p-2 rounded-lg font-bold cursor-pointer active:bg-blue-300": "hidden"}">Siasir le score</button></li>
+                            <li class=${match.scorA ? "hidden" : ""}><button data-score=${match.id} type="button" class=" ${date <= new Date() ? "bg-blue-500 p-2 rounded-lg font-bold cursor-pointer active:bg-blue-300" : "hidden"}">Siasir le score</button></li>
                             <li data-edite=${match.id}  class="bg-linear-to-r from-green-700 to-slate-200 px-4 py-2 rounded-lg open-close"><i class="fa-solid fa-pen-to-square"></i></li>
                             <li data-deleted=${match.id}  class="bg-linear-to-r from-red-700 to-slate-200 px-4 py-2 rounded-lg"><i class="fa-solid fa-trash cursor-pointer"></i></li>
                         </ul>
@@ -334,10 +354,13 @@ export function filterMatchS(serch, filterMatch) {
   let valueFilter = "All";
 
   function apllySerch() {
-    const filterMatch = matchs.filter(match => {
-      const resultSerch = match.adversaire.toLowerCase().includes(valueSerch.toLowerCase())
+    const filterMatch = matchs.filter((match) => {
+      const resultSerch = match.adversaire
+        .toLowerCase()
+        .includes(valueSerch.toLowerCase());
 
-      const resultFilter = valueFilter === "All" ?  match.time : match.time === valueFilter
+      const resultFilter =
+        valueFilter === "All" ? match.time : match.time === valueFilter;
       return resultSerch && resultFilter;
     });
 
@@ -349,10 +372,10 @@ export function filterMatchS(serch, filterMatch) {
     apllySerch();
   });
 
-  filterMatch.forEach(btn => {
+  filterMatch.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       valueFilter = e.target.dataset.post;
       apllySerch();
-    })
-  })
+    });
+  });
 }
