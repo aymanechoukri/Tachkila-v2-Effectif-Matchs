@@ -113,7 +113,7 @@ export function renderMatch(tickts, showMatchs = matchs) {
                         </div>
                     </div>
                     
-                    <div class="flex gap-4 items-center">
+                    <div class="flex gap-4 items-center max-lg:flex-col">
                         <div class="flex items-center justify-center gap-4 ${!match.scorA && match.scorA !== 0 ? "hidden" : ""} bg-green-900/80 border border-slate-700 rounded-xl px-5 py-3 shadow-lg">
 
                                 <p class="${match.scorA > match.scorV ? "text-green-400" : match.scorA < match.scorV ? "text-red-400" : "text-slate-300"} text-2xl font-black bg-green-800/60 px-4 py-2 rounded-lg min-w-14 text-center shadow-inner">

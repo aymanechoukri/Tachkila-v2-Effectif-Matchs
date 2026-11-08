@@ -68,7 +68,7 @@
         </ul>
       </nav>
 
-      <div class="flex gap-5 font-bold justify-center py-4 max-md:hidden">
+      <div class="flex gap-5 font-bold justify-center py-4 max-lg:hidden">
         <p class="flex gap-2 max-md:hidden">
           <span class="px-[12px] bg-[#f3de24] rounded-[50%]"></span>GB
         </p>
@@ -83,6 +83,18 @@
         </p>
       </div>
     </header>
+
+    <video
+      class="fixed top-0 left-0 w-full h-full object-cover -z-10"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="none"
+      poster="./Image/blue-poster.webp"
+    >
+      <source src="./Image/blue.mp4" type="video/mp4" />
+    </video>
 
     <div
       id="toast"
@@ -378,30 +390,30 @@
           </button>
         </div>
 
-        <div class="flex items-center gap-5 p-5">
+        <div class="flex items-center gap-5 p-5 max-lg:flex-col">
           <article
-            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50"
+            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50 max-lg:w-[100%]"
           >
             <h3 class="text-white/50 text-xl font-extrabold">TOTAL EFFECTIF</h3>
             <span class="text-white text-5xl font-bold">14</span>
           </article>
 
           <article
-            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50"
+            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50 max-lg:w-[100%]"
           >
             <h3 class="text-white/50 text-xl font-extrabold">EN FORME</h3>
             <span class="text-green-800 text-5xl font-bold">12</span>
           </article>
 
           <article
-            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50"
+            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50 max-lg:w-[100%]"
           >
             <h3 class="text-white/50 text-xl font-extrabold">BLESSES</h3>
             <span class="text-red-800 text-5xl font-bold">2</span>
           </article>
 
           <article
-            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50"
+            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50 max-lg:w-[100%]" 
           >
             <h3 class="text-white/50 text-xl font-extrabold">AGE MOYEN</h3>
             <span class="text-white text-5xl font-bold">26,1ans</span>
@@ -464,7 +476,7 @@
           </ul>
         </form>
 
-        <div id="tickts2" class="p-10 grid grid-cols-4 gap-5"></div>
+        <div id="tickts2" class="p-10 grid grid-cols-4 gap-5 max-lg:grid-cols-1"></div>
         <div class="flex gap-5 justify-center items-center">
           <button
             id="left"

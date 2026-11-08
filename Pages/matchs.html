@@ -68,7 +68,7 @@
         </ul>
       </nav>
 
-      <div class="flex gap-5 font-bold justify-center py-4 max-md:hidden">
+      <div class="flex gap-5 font-bold justify-center py-4 max-lg:hidden">
         <p class="flex gap-2 max-md:hidden">
           <span class="px-[12px] bg-[#f3de24] rounded-[50%]"></span>GB
         </p>
@@ -83,6 +83,18 @@
         </p>
       </div>
     </header>
+
+    <video
+      class="fixed top-0 left-0 w-full h-full object-cover -z-10"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="none"
+      poster="/Image/ikki-niko-and-yoichi-isagi.3840x2160.mp4"
+    >
+      <source src="/Image/ikki-niko-and-yoichi-isagi.3840x2160.mp4" type="video/mp4" />
+    </video>
 
     <div
       id="popap"
@@ -504,37 +516,37 @@
           </button>
         </div>
 
-        <div class="flex items-center gap-5 p-5">
+        <div class="flex items-center gap-5 p-5 max-lg:flex-col">
           <article
-            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50"
+            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50 max-lg:w-[100%]" 
           >
             <h3 class="text-white/50 text-xl font-extrabold">VICTOIRES</h3>
             <span class="text-white text-5xl font-bold">1</span>
           </article>
 
           <article
-            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50"
+            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50 max-lg:w-[100%]"
           >
             <h3 class="text-white/50 text-xl font-extrabold">NULS</h3>
             <span class="text-green-800 text-5xl font-bold">0</span>
           </article>
 
           <article
-            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50"
+            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50 max-lg:w-[100%]"
           >
             <h3 class="text-white/50 text-xl font-extrabold">DEFAITES</h3>
             <span class="text-red-800 text-5xl font-bold">0</span>
           </article>
 
           <article
-            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50"
+            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50 max-lg:w-[100%]"
           >
             <h3 class="text-white/50 text-xl font-extrabold">BUTS MARQUES</h3>
             <span class="text-white text-5xl font-bold">7</span>
           </article>
 
           <article
-            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50"
+            class="p-5 flex-1 rounded-lg shadow-lg shadow-white/15 backdrop-blur-lg bg-black/50 max-lg:w-[100%]"
           >
             <h3 class="text-white/50 text-xl font-extrabold">BUTS ENCAISSES</h3>
             <span class="text-white text-5xl font-bold">5</span>
@@ -584,45 +596,7 @@
         </form>
 
         <div id="tickts" class="p-10 grid grid-cols-1 gap-5">
-          <article
-            class="flex justify-between backdrop-blur-lg bg-black/50 p-5 rounded-xl items-center"
-          >
-            <div class="flex items-center gap-7">
-              <div
-                class="flex flex-col items-center bg-green-900/30 py-2 rounded-lg px-4"
-              >
-                <h3 class="font-bold">MAR</h3>
-                <p class="font-bold text-3xl">27</p>
-                <p class="font-bold">OCT</p>
-                <p class="font-bold">15:00</p>
-              </div>
-
-              <div class="flex flex-col gap-3">
-                <p
-                  class="bg-green-600/50 p-1 rounded-lg text-center w-20 font-semibold"
-                >
-                  Domicile
-                </p>
-                <h3 class="text-xl font-bold">Atlas FC vs Olympique Safran</h3>
-                <p class="font-bold text-green-400">Stade Municipal Oasis</p>
-              </div>
-            </div>
-
-            <div>
-              <ul class="flex items-center gap-5">
-                <li>
-                  <button
-                    type="button"
-                    class="bg-blue-500 p-2 rounded-lg font-bold cursor-pointer active:bg-blue-300"
-                  >
-                    Siasir le score
-                  </button>
-                </li>
-                <li class="cursor-pointer">M</li>
-                <li class="cursor-pointer">D</li>
-              </ul>
-            </div>
-          </article>
+          
         </div>
       </section>
     </main>
